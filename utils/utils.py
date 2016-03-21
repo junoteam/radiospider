@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # -*- by Alex Berber -*-
 
-class MysqlSimpleConnector(object):
+class Utils(object):
 
-    def mysql_connector(self):
+    def utils(self):
         pass

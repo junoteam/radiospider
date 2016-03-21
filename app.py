@@ -3,7 +3,7 @@
 # -*- by Alex Berber -*-
 
 # Necessary imports
-from common.MysqlSimpleConnector import MysqlSimpleConnector
+from common.MysqlConnector import MysqlConnector
 from scripts.RadioSpider import RadioSpider
 from utils.Utils import Utils
 
