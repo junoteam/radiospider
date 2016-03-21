@@ -1,25 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# -*- by Alex Berber -*-
+# -*- by Alex -*-
 
 # Necessary imports
 from common.MysqlConnector import MysqlConnector
 from scripts.RadioSpider import RadioSpider
 from utils.Utils import Utils
 
-class App(object):
+class SpiderRun(object):
 
     def app_run(self):
 
-        """test query"""
+        print "get started"
 
+        """test query"""
         testQuery = 'SELECT * from stations;'
         mysqlRun = MysqlConnector()
-        mysqlRun.get_select(testQuery)
+        result = mysqlRun.get_select(testQuery)
+        print "Result of select: %s:" % result
 
 if "__name__" == '__main__':
 
-    appRun = App()
+    appRun = SpiderRun()
     appRun.app_run()
 
 
