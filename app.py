@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 # -*- by Alex Berber -*-
 
-# Script added to GitHub
+# Necessary imports
+from common.MysqlSimpleConnector import MysqlSimpleConnector
+from scripts.RadioSpider import RadioSpider
+from utils.Utils import Utils
 
 if "__name__" == '__main__':
     pass
