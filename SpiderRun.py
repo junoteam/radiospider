@@ -3,7 +3,7 @@
 # -*- by Alex -*-
 
 # Necessary imports
-from common.MysqlConnector import MysqlConnector
+from common.MysqlConnect import MysqlConnect
 from scripts.RadioSpider import RadioSpider
 from utils.Utils import Utils
 
@@ -11,20 +11,13 @@ class SpiderRun(object):
 
     def app_run(self):
 
-        print "get started"
-
         """test query"""
         testQuery = 'SELECT * from stations;'
-        mysqlRun = MysqlConnector()
+        mysqlRun = MysqlConnect()
         result = mysqlRun.get_select(testQuery)
         print "Result of select: %s:" % result
 
-if "__name__" == '__main__':
+if __name__ == '__main__':
 
     appRun = SpiderRun()
     appRun.app_run()
-
-
-
-
-

@@ -4,11 +4,14 @@
 
 import MySQLdb
 
-class MysqlConnector(object):
+class MysqlConnect(object):
+
+    def __init__(self):
+        self.mysql_connect()
 
     database = None
 
-    def mysql_connector(self):
+    def mysql_connect(self):
         if self.database is None:
             try:
                 self.database = MySQLdb.connect(host="172.25.60.76",
