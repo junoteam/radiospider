@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 # -*- by Alex -*-
 
-# Necessary imports
 from common.MysqlConnect import MysqlConnect
 from scripts.RadioSpider import RadioSpider
 from utils.Utils import Utils
@@ -19,5 +18,9 @@ class SpiderRun(object):
 
 if __name__ == '__main__':
 
-    appRun = SpiderRun()
-    appRun.app_run()
+    #appRun = SpiderRun()
+    #appRun.app_run()
+
+    parserObj = RadioSpider()
+    parserObj.RadioParser()
+
