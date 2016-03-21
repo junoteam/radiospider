@@ -13,9 +13,9 @@ class MysqlConnector(object):
             try:
                 self.database = MySQLdb.connect(host="172.25.60.76",
                                                 user="root",
-                                                passwd="passowrd",
+                                                passwd="password",
                                                 charset='utf8',
-                                                db="stations")
+                                                db="radio")
                 print "Connected to database..."
             except MySQLdb.Error, e:
                 print "Error %d: %s" % (e.args[0], e.args[1])
