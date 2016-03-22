@@ -23,5 +23,5 @@ if __name__ == '__main__':
     # appRun.app_run()
 
     parserObj = RadioSpider()
-    parserObj.genresParser()
+    parserObj.radioParser()
 

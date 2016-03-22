@@ -29,6 +29,8 @@ class RadioSpider(object):
 
         return genres_array
 
-    def radioParser(self, genre):
-        pass
+    def radioParser(self):
+
+        a = self.genresParser()
+        print a
 
