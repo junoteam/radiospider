@@ -18,7 +18,7 @@ class MysqlConnect(object):
                                                 user="root",
                                                 passwd="password",
                                                 charset='utf8',
-                                                db="radio")
+                                                db="upods")
                 print "Connected to database..."
             except MySQLdb.Error, e:
                 print "Error %d: %s" % (e.args[0], e.args[1])
@@ -30,7 +30,7 @@ class MysqlConnect(object):
         cursor = db.cursor()
         return cursor
 
-    def get_insert(self, sql_query):
+    def make_insert(self, sql_query):
         db = self.database
         print "Current DB: %s" % db
         cursor = self.get_cursor()
@@ -47,7 +47,7 @@ class MysqlConnect(object):
         cursor.close()
         return insertedId
 
-    def get_select(self, sql_query):
+    def make_select(self, sql_query):
         cursor = self.get_cursor()
         try:
             data = cursor.execute(sql_query)

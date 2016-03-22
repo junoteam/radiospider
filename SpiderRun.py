@@ -11,16 +11,17 @@ class SpiderRun(object):
     def app_run(self):
 
         """test query"""
-        testQuery = 'SELECT * from stations;'
+        testQuery = 'SELECT * from radio_stations LIMIT 5;'
         mysqlRun = MysqlConnect()
-        result = mysqlRun.get_select(testQuery)
-        print "Result of select: %s:" % result
+        result = mysqlRun.make_select(testQuery)
+        for row in result:
+            print row[0], row[1], row[2], row[3], row[4]
 
 if __name__ == '__main__':
 
-    #appRun = SpiderRun()
-    #appRun.app_run()
+    appRun = SpiderRun()
+    appRun.app_run()
 
-    parserObj = RadioSpider()
-    parserObj.RadioParser()
+    #parserObj = RadioSpider()
+    #parserObj.RadioParser()
 

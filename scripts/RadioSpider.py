@@ -13,7 +13,7 @@ class RadioSpider(object):
 
     def RadioParser(self):
 
-        radio_url = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/BrowsePremiumStations.asp?sCategory=Hard%20Rock&sBrowseType=Format&sNiceLOFO=Hard%20Rock'
+        radio_url = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/BrowsePremiumStations.asp?sCategory=Alternative&sBrowseType=Format&sViewBy=&sSortby=&sWhatList=&sNiceLang=&iCurrPage=1'
         soup = BeautifulSoup(urlopen(radio_url).read())
 
         #raw_html = soup.prettify()[0:1000000]
