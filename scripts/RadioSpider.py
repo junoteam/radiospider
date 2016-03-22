@@ -13,31 +13,18 @@ class RadioSpider(object):
 
     def RadioParser(self):
 
-        radio_url = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/BrowsePremiumStations.asp?sCategory=Alternative&sBrowseType=Format&sViewBy=&sSortby=&sWhatList=&sNiceLang=&iCurrPage=1'
-        soup = BeautifulSoup(urlopen(radio_url).read())
+        radio_url_genre = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/BrowsePremiumStations.asp?sCategory=Alternative&sBrowseType=Format&sViewBy=&sSortby=&sWhatList=&sNiceLang=&iCurrPage=1'
+        radio_url_format = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/StartPage.asp?sBrowseType=Format'
+        soup = BeautifulSoup(urlopen(radio_url_format).read())
 
         #raw_html = soup.prettify()[0:1000000]
         #print raw_html
 
-        section = soup.find('table', id='table2')
-        print section
-
-        href = section.find('option')
-        print href.text
-
-        #h3 = section.find('h3')
-        #print h3.text
-
-
-        #doc = lxml.html.parse(self.radio_url)
-        #doc.xpath()
-
-        # for section in doc.xpath('//section[starts-with(@id, "rankings")]'):
-        #     print section.xpath('h1[1]/text()')[0]
-        #     print section.xpath('h3[1]/text()')[0]
-        #     for row in section.xpath('table/tbody/tr'):
-        #         cols = row.xpath('td/b/text()')
-        #         print '  ', cols[0].ljust(25), ' '.join(cols[1:])
-        #     print
+        genre_rows = soup.find('table', id='table10').findAll('tr')
+        for row in genre_rows:
+            d = row.findAll('td')
+            for row_2 in d:
+                t = row_2.findAll('a')
+                print t
 
 

@@ -19,9 +19,9 @@ class SpiderRun(object):
 
 if __name__ == '__main__':
 
-    appRun = SpiderRun()
-    appRun.app_run()
+    # appRun = SpiderRun()
+    # appRun.app_run()
 
-    #parserObj = RadioSpider()
-    #parserObj.RadioParser()
+    parserObj = RadioSpider()
+    parserObj.RadioParser()
 
