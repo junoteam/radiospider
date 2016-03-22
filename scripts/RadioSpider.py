@@ -25,6 +25,8 @@ class RadioSpider(object):
             d = row.findAll('td')
             for row_2 in d:
                 t = row_2.findAll('a')
-                print t
+                for row_3 in t:
+                    z = row_3.getText()
+                    print z
 
 
