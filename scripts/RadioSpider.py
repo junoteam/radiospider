@@ -32,18 +32,29 @@ class RadioSpider(object):
 
     def radioParser(self):
 
+        pages_array = []
+
         all_genres = self.genresParser()
         for item in range(len(all_genres)):
             radio_url_genre = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/BrowsePremiumStations.asp?sCategory=' + all_genres[item] + '&sBrowseType=Format&sViewBy=&sSortby=&sWhatList=&sNiceLang=&iCurrPage=1'
-            print radio_url_genre
+            #print radio_url_genre
+
+        test_url = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/BrowsePremiumStations.asp?sCategory=Alternative&sBrowseType=Format&sViewBy=&sSortby=&sWhatList=&sNiceLang=&iCurrPage=1'
+        soup = BeautifulSoup(urlopen(test_url).read())
+        pages = soup.findAll('div')
+        for row in pages:
+            y = row.findAll('a', {"class":"paging"})
+            for row_1 in y:
+                k = row_1.findAll('b')
+                for row_2 in k:
+                    l = row_2.getText()
+                    pages_array.append(l)
+
+        print pages_array
 
 
 
 
-
-        uuuur = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/BrowsePremiumStations.asp?sCategory=R&B&sBrowseType=Format&sViewBy=&sSortby=&sWhatList=&sNiceLang=&iCurrPage=1'
-        #filehandle = urllib.urlopen(uuuur).read()
-        #print filehandle
 
 
 
