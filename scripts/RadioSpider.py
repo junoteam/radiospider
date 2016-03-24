@@ -50,9 +50,10 @@ class RadioSpider(object):
                         l = row_2.getText()
                         pages_array.append(l)
 
-            print pages_array
-            print "\n"
 
+            for number in range(len(pages_array)):
+                radio_urls = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/BrowsePremiumStations.asp?sCategory=' + all_genres[item] + '&sBrowseType=Format&sViewBy=&sSortby=&sWhatList=&sNiceLang=&iCurrPage=' + pages_array[number]
+                print radio_urls
 
 
 
