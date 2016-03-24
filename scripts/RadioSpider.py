@@ -6,6 +6,7 @@ from urllib2 import urlopen
 from BeautifulSoup import BeautifulSoup
 import re
 import urllib
+import sys
 
 class RadioSpider(object):
 
@@ -37,7 +38,6 @@ class RadioSpider(object):
 
         for item in range(len(all_genres)):
             radio_url_genres = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/BrowsePremiumStations.asp?sCategory=' + all_genres[item] + '&sBrowseType=Format&sViewBy=&sSortby=&sWhatList=&sNiceLang=&iCurrPage=1'
-            print radio_url_genres
             url_clean = urllib.urlopen(radio_url_genres)
 
             soup = BeautifulSoup(url_clean)
@@ -50,13 +50,27 @@ class RadioSpider(object):
                         l = row_2.getText()
                         pages_array.append(l)
 
-
             for number in range(len(pages_array)):
                 radio_urls = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/BrowsePremiumStations.asp?sCategory=' + all_genres[item] + '&sBrowseType=Format&sViewBy=&sSortby=&sWhatList=&sNiceLang=&iCurrPage=' + pages_array[number]
-                print radio_urls
+
+                url_ready = urllib.urlopen(radio_urls)
+                soup_radios = BeautifulSoup(url_ready)
+
+                main_table = soup_radios.find('table', id='table1').findAll('tr')
+                for tabl in main_table:
+                    io = tabl.findAll('table')
+                    for tagz in io:
+                        oi = tagz.findAll('td')
+                        for az in oi:
+                            gz = az.findAll('a')
+                            if len(gz) > 0:
+                                print gz[1]
+                            # rz = az.findAll('a', limit=1)
+                            # print "++++++TEXT INSIDE URL+++++++++"
+                            # print rz
 
 
-
+        sys.exit(0)
 
 
 
