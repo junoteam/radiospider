@@ -7,7 +7,6 @@ from BeautifulSoup import BeautifulSoup
 import re
 import urllib
 import sys
-from ntdb import REPLACE
 from string import replace
 
 class RadioSpider(object):
