@@ -57,9 +57,9 @@ class RadioSpider(object):
                 soup_radios = BeautifulSoup(url_ready)
 
                 main_table = soup_radios.find('table', id='table1').findAll('tr')
-                for tabl in main_table:
-                    io = tabl.findAll('table')
-                    for tagz in io:
+                for tab in main_table:
+                    table = tab.findAll('table')
+                    for tagz in table:
                         oi = tagz.findAll('tr')
                         for tr in oi:
                             alTds = tr.findAll('td')
@@ -79,8 +79,12 @@ class RadioSpider(object):
                                 allTdLinks = alTds[3].findAll('a')
                                 if len(allTdLinks) > 0:
                                     print allTdLinks[0]
+                            if len(alTds) > 4:
+                                allTdLinks = alTds[4].findAll('a')
+                                if len(allTdLinks) > 0:
+                                    print allTdLinks[0]
 
-        sys.exit(0)
+
 
 
 
