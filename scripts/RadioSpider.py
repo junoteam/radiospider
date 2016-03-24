@@ -7,6 +7,8 @@ from BeautifulSoup import BeautifulSoup
 import re
 import urllib
 import sys
+from ntdb import REPLACE
+from string import replace
 
 class RadioSpider(object):
 
@@ -52,7 +54,8 @@ class RadioSpider(object):
 
             for number in range(len(pages_array)):
                 radio_urls = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/BrowsePremiumStations.asp?sCategory=' + all_genres[item] + '&sBrowseType=Format&sViewBy=&sSortby=&sWhatList=&sNiceLang=&iCurrPage=' + pages_array[number]
-
+                m3u_url = 'http://vtuner.com/setupapp/guide/asp/'
+                
                 url_ready = urllib.urlopen(radio_urls)
                 soup_radios = BeautifulSoup(url_ready)
 
@@ -62,19 +65,24 @@ class RadioSpider(object):
                     for tagz in table:
                         oi = tagz.findAll('tr')
                         for tr in oi:
+                            name = ''
+                            url = ''
+                            genre =''
+                            quality = ''
                             alTds = tr.findAll('td')
                             if len(alTds) < 5:
                                 continue
                             if len(alTds) > 0:
                                 allTdLinks = alTds[0].findAll('a')
                                 if len(allTdLinks) > 0:
-                                    print allTdLinks[0]
+                                    url = m3u_url + allTdLinks[0]['href']
+                                    url = url.replace('../', '')
+                                    print url
                             if len(alTds) > 1:
                                 allTdLinks = alTds[1].findAll('a')
                                 if len(allTdLinks) > 0:
                                     print allTdLinks[0].getText()
                             if len(alTds) > 2:
-                                print "ZZZZZZZZZZZZZZZZZZZZZZZZZ"
                                 print alTds[2].getText()
                             if len(alTds) > 3:
                                 allTdLinks = alTds[3].findAll('a')
@@ -82,6 +90,8 @@ class RadioSpider(object):
                                     print allTdLinks[0].getText()
                             if len(alTds) > 4:
                                     print alTds[4].getText()
+                            
+                            #TODO inserts here
 
 
 
