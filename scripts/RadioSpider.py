@@ -64,13 +64,13 @@ class RadioSpider(object):
                         for tr in oi:
                             alTds = tr.findAll('td')
                             if len(alTds) > 0:
-                                allTdLinks = alTds[0].find('a')
+                                allTdLinks = alTds[0].findAll('a')
                                 if len(allTdLinks) > 0:
                                     print allTdLinks[0]
-
-
-                            print alTds[0]
-
+                            if len(alTds) > 1:
+                                allTdLinks = alTds[0].findAll('a')
+                                if len(allTdLinks) > 0:
+                                    print allTdLinks[0]
 
 
 
