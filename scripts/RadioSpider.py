@@ -63,6 +63,8 @@ class RadioSpider(object):
                         oi = tagz.findAll('tr')
                         for tr in oi:
                             alTds = tr.findAll('td')
+                            if len(alTds) < 5:
+                                continue
                             if len(alTds) > 0:
                                 allTdLinks = alTds[0].findAll('a')
                                 if len(allTdLinks) > 0:
@@ -70,19 +72,16 @@ class RadioSpider(object):
                             if len(alTds) > 1:
                                 allTdLinks = alTds[1].findAll('a')
                                 if len(allTdLinks) > 0:
-                                    print allTdLinks[0]
+                                    print allTdLinks[0].getText()
                             if len(alTds) > 2:
-                                allTdLinks = alTds[2].findAll('a')
-                                if len(allTdLinks) > 0:
-                                    print allTdLinks[0]
+                                print "ZZZZZZZZZZZZZZZZZZZZZZZZZ"
+                                print alTds[2].getText()
                             if len(alTds) > 3:
                                 allTdLinks = alTds[3].findAll('a')
                                 if len(allTdLinks) > 0:
-                                    print allTdLinks[0]
+                                    print allTdLinks[0].getText()
                             if len(alTds) > 4:
-                                allTdLinks = alTds[4].findAll('a')
-                                if len(allTdLinks) > 0:
-                                    print allTdLinks[0]
+                                    print alTds[4].getText()
 
 
 
