@@ -68,32 +68,17 @@ class RadioSpider(object):
                                 if len(allTdLinks) > 0:
                                     print allTdLinks[0]
                             if len(alTds) > 1:
-                                allTdLinks = alTds[0].findAll('a')
+                                allTdLinks = alTds[1].findAll('a')
                                 if len(allTdLinks) > 0:
                                     print allTdLinks[1]
                             if len(alTds) > 2:
-                                allTdLinks = alTds[0].findAll('a')
+                                allTdLinks = alTds[2].findAll('a')
                                 if len(allTdLinks) > 0:
                                     print allTdLinks[2]
                             if len(alTds) > 3:
-                                allTdLinks = alTds[0].findAll('a')
+                                allTdLinks = alTds[3].findAll('a')
                                 if len(allTdLinks) > 0:
                                     print allTdLinks[3]
-
-
-
-
-
-                                # for az in oi:
-                                #     gz = az.findAll('a')
-                                #     if len(gz) > 0:
-                                #         print gz[1]
-
-
-                                    # rz = az.findAll('a', limit=1)
-                                    # print "++++++TEXT INSIDE URL+++++++++"
-                                    # print rz
-
 
         sys.exit(0)
 
