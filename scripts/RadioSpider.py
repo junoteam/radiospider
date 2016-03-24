@@ -70,7 +70,17 @@ class RadioSpider(object):
                             if len(alTds) > 1:
                                 allTdLinks = alTds[0].findAll('a')
                                 if len(allTdLinks) > 0:
-                                    print allTdLinks[0]
+                                    print allTdLinks[1]
+                            if len(alTds) > 2:
+                                allTdLinks = alTds[0].findAll('a')
+                                if len(allTdLinks) > 0:
+                                    print allTdLinks[2]
+                            if len(alTds) > 3:
+                                allTdLinks = alTds[0].findAll('a')
+                                if len(allTdLinks) > 0:
+                                    print allTdLinks[3]
+
+
 
 
 
