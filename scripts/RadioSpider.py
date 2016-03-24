@@ -60,14 +60,29 @@ class RadioSpider(object):
                 for tabl in main_table:
                     io = tabl.findAll('table')
                     for tagz in io:
-                        oi = tagz.findAll('td')
-                        for az in oi:
-                            gz = az.findAll('a')
-                            if len(gz) > 0:
-                                print gz[1]
-                            # rz = az.findAll('a', limit=1)
-                            # print "++++++TEXT INSIDE URL+++++++++"
-                            # print rz
+                        oi = tagz.findAll('tr')
+                        for tr in oi:
+                            alTds = tr.findAll('td')
+                            if len(alTds) > 0:
+                                allTdLinks = alTds[0].find('a')
+                                if len(allTdLinks) > 0:
+                                    print allTdLinks[0]
+
+
+                            print alTds[0]
+
+
+
+
+                                # for az in oi:
+                                #     gz = az.findAll('a')
+                                #     if len(gz) > 0:
+                                #         print gz[1]
+
+
+                                    # rz = az.findAll('a', limit=1)
+                                    # print "++++++TEXT INSIDE URL+++++++++"
+                                    # print rz
 
 
         sys.exit(0)
