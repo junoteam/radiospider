@@ -4,6 +4,7 @@
 
 from urllib2 import urlopen
 from BeautifulSoup import BeautifulSoup
+from common.MysqlConnect import MysqlConnect
 import re
 import urllib
 import sys
@@ -64,9 +65,10 @@ class RadioSpider(object):
                     for tagz in table:
                         oi = tagz.findAll('tr')
                         for tr in oi:
-                            name = ''
                             url = ''
-                            genre =''
+                            name = ''
+                            location = ''
+                            genre = ''
                             quality = ''
                             alTds = tr.findAll('td')
                             if len(alTds) < 5:
@@ -76,19 +78,26 @@ class RadioSpider(object):
                                 if len(allTdLinks) > 0:
                                     url = m3u_url + allTdLinks[0]['href']
                                     url = url.replace('../', '')
-                                    print url
+                                    print '--- Radio block starts here ---'
+                                    print "URL of Radio :" + url
                             if len(alTds) > 1:
                                 allTdLinks = alTds[1].findAll('a')
                                 if len(allTdLinks) > 0:
-                                    print allTdLinks[0].getText()
+                                    name = allTdLinks[0].getText()
+                                    print "Name of Radio: " + name
                             if len(alTds) > 2:
-                                print alTds[2].getText()
+                                location = alTds[2].getText()
+                                print "Location of Radio: " + location
                             if len(alTds) > 3:
                                 allTdLinks = alTds[3].findAll('a')
                                 if len(allTdLinks) > 0:
-                                    print allTdLinks[0].getText()
+                                    genre = allTdLinks[0].getText()
+                                    print "Genre of Radio: " + genre
                             if len(alTds) > 4:
-                                    print alTds[4].getText()
+                                    quality = alTds[4].getText()
+                                    print "Quality of Radio: " + quality
+                                    print '--- Radio block ends here ---'
+                                    print "\n"
                             
                             #TODO inserts here
 
