@@ -12,6 +12,7 @@ from string import replace
 
 class RadioSpider(object):
 
+    mysql_obj = MysqlConnect()
     radio_url_format = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/StartPage.asp?sBrowseType=Format'
 
     def genresParser(self):
@@ -100,6 +101,8 @@ class RadioSpider(object):
                                     print "\n"
                             
                             #TODO inserts here
+                            query_radio = "INSERT INTO `radio_stations` (`name`, `description`, `website`, `country`, `lng`, `status`) VALUES ('station name', '', '', 'country', '', '');"
+                            MysqlConnect.make_insert(query_radio)
 
 
 
