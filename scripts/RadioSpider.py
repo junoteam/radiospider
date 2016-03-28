@@ -66,37 +66,37 @@ class RadioSpider(object):
                     for tagz in table:
                         oi = tagz.findAll('tr')
                         for tr in oi:
-                            url = ''
-                            name = ''
-                            location = ''
-                            genre = ''
-                            quality = ''
+                            station_url = ''
+                            station_name = ''
+                            station_location = ''
+                            station_genre = ''
+                            station_quality = ''
                             alTds = tr.findAll('td')
                             if len(alTds) < 5:
                                 continue
                             if len(alTds) > 0:
                                 allTdLinks = alTds[0].findAll('a')
                                 if len(allTdLinks) > 0:
-                                    url = m3u_url + allTdLinks[0]['href']
-                                    url = url.replace('../', '')
+                                    station_url = m3u_url + allTdLinks[0]['href']
+                                    station_url = station_url.replace('../', '')
                                     print '--- Radio block starts here ---'
-                                    print "URL of Radio :" + url
+                                    print "URL of Radio :" + station_url
                             if len(alTds) > 1:
                                 allTdLinks = alTds[1].findAll('a')
                                 if len(allTdLinks) > 0:
-                                    name = allTdLinks[0].getText()
-                                    print "Name of Radio: " + name
+                                    station_name = allTdLinks[0].getText()
+                                    print "Name of Radio: " + station_name
                             if len(alTds) > 2:
-                                location = alTds[2].getText()
-                                print "Location of Radio: " + location
+                                station_location = alTds[2].getText()
+                                print "Location of Radio: " + station_location
                             if len(alTds) > 3:
                                 allTdLinks = alTds[3].findAll('a')
                                 if len(allTdLinks) > 0:
-                                    genre = allTdLinks[0].getText()
-                                    print "Genre of Radio: " + genre
+                                    station_genre = allTdLinks[0].getText()
+                                    print "Genre of Radio: " + station_genre
                             if len(alTds) > 4:
-                                    quality = alTds[4].getText()
-                                    print "Quality of Radio: " + quality
+                                    station_quality = alTds[4].getText()
+                                    print "Quality of Radio: " + station_quality
                                     print '--- Radio block ends here ---'
                                     print "\n"
                             
