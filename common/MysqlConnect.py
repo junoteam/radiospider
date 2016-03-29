@@ -3,6 +3,7 @@
 # -*- by Alex -*-
 
 import MySQLdb
+from utils.utils import Utils
 
 class MysqlConnect(object):
 
@@ -14,7 +15,8 @@ class MysqlConnect(object):
     def mysql_connect(self):
         if self.database is None:
             try:
-                self.database = MySQLdb.connect(host="172.25.60.76",
+                work_env = Utils.get_system_env()
+                self.database = MySQLdb.connect(host=work_env,
                                                 user="root",
                                                 passwd="password",
                                                 charset='utf8',
