@@ -34,7 +34,6 @@ class MysqlConnect(object):
 
     def make_insert(self, sql_query):
         db = self.database
-        print "Current DB: %s" % db
         cursor = self.get_cursor()
         insertedId = -1
         try:

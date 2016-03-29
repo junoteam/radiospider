@@ -3,14 +3,12 @@
 # -*- by Alex -*-
 
 from urllib2 import urlopen
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 from common.MysqlConnect import MysqlConnect
 import re
 import urllib
 import sys
-from string import replace
 import datetime
-from pprint import pprint
 
 class RadioSpider(object):
 
@@ -20,9 +18,7 @@ class RadioSpider(object):
     def genresParser(self):
 
         genres_array = []
-        soup = BeautifulSoup(urlopen(self.radio_url_format).read())
-        #raw_html = soup.prettify()[0:1000000]
-
+        soup = BeautifulSoup(urlopen(self.radio_url_format).read(), "lxml")
         genre_rows = soup.find('table', id='table10').findAll('tr')
         for row in genre_rows:
             d = row.findAll('td')
@@ -45,7 +41,7 @@ class RadioSpider(object):
             radio_url_genres = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/BrowsePremiumStations.asp?sCategory=' + all_genres[item] + '&sBrowseType=Format&sViewBy=&sSortby=&sWhatList=&sNiceLang=&iCurrPage=1'
             url_clean = urllib.urlopen(radio_url_genres)
 
-            soup = BeautifulSoup(url_clean)
+            soup = BeautifulSoup(url_clean, "lxml")
             pages = soup.findAll('div')
             for row in pages:
                 y = row.findAll('a', {"class":"paging"})
@@ -60,7 +56,7 @@ class RadioSpider(object):
                 m3u_url = 'http://vtuner.com/setupapp/guide/asp/'
                 
                 url_ready = urllib.urlopen(radio_urls)
-                soup_radios = BeautifulSoup(url_ready)
+                soup_radios = BeautifulSoup(url_ready, "lxml")
 
                 main_table = soup_radios.find('table', id='table1').findAll('tr')
                 for tab in main_table:
@@ -75,17 +71,21 @@ class RadioSpider(object):
                             station_quality = ''
                             station_updated = datetime.datetime.now()
                             alTds = tr.findAll('td')
+
                             if len(alTds) < 5:
-                                govno = alTds.select("tr td[bgcolor='#FFFFFF']")
-                                print govno
                                 continue
+                            str1 = ''.join([str(x) for x in alTds])
+                            govno = 'bgcolor="#FFFFFF"'
+                            if govno in str1:
+                                continue
+
                             if len(alTds) > 0:
                                 allTdLinks = alTds[0].findAll('a')
                                 if len(allTdLinks) > 0:
                                     station_url = m3u_url + allTdLinks[0]['href']
                                     station_url = station_url.replace('../', '')
                                     print '--- Radio block starts here ---'
-                                    print "URL of Radio :" + station_url
+                                    print "URL of Radio: " + station_url
                             if len(alTds) > 1:
                                 allTdLinks = alTds[1].findAll('a')
                                 if len(allTdLinks) > 0:
@@ -106,16 +106,14 @@ class RadioSpider(object):
                                     print "\n"
                             
                             #TODO inserts here
-                            query_radio = "INSERT INTO `radio_stations`(`name`, `country`, `updated`) VALUES " \
-                                          "('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_updated) + "');"
-
+                            query_radio = "INSERT INTO `radio_stations`(`name`, `location`, `updated`) VALUES ('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_updated) + "');"
                             insert_id = self.mysql_obj.make_insert(query_radio)
+
                             if insert_id != -1:
                                 station_quality = re.sub("\D", "", station_quality)
-                                query_url_and_bitrate = "INSERT INTO `radio_station_stream_urls`(`station_id`, `url`, `bitrate`) " \
-                                                        "VALUES('" + str(insert_id) + "'," + "'" + station_url + "'," + "'" + station_quality + "');"
+                                query_url_and_bitrate = "INSERT INTO `radio_station_stream_urls`(`station_id`, `url`, `bitrate`) VALUES('" + str(insert_id) + "'," + "'" + station_url + "'," + "'" + station_quality + "');"
                                 self.mysql_obj.make_insert(query_url_and_bitrate)
-                            sys.exit(1)
+                        sys.exit(1)
 
 
 

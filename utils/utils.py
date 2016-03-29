@@ -15,8 +15,6 @@ class Utils():
         system_hostname = socket.gethostname()
 
         if system_hostname == 'booch':
-            print ubuntu_alef_ip
             return ubuntu_alef_ip
         else:
-            print ubuntu_bet_ip
             return ubuntu_bet_ip
