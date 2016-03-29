@@ -10,6 +10,7 @@ import urllib
 import sys
 from string import replace
 import datetime
+from pprint import pprint
 
 class RadioSpider(object):
 
@@ -74,8 +75,9 @@ class RadioSpider(object):
                             station_quality = ''
                             station_updated = datetime.datetime.now()
                             alTds = tr.findAll('td')
-
                             if len(alTds) < 5:
+                                govno = alTds.select("tr td[bgcolor='#FFFFFF']")
+                                print govno
                                 continue
                             if len(alTds) > 0:
                                 allTdLinks = alTds[0].findAll('a')
@@ -104,13 +106,14 @@ class RadioSpider(object):
                                     print "\n"
                             
                             #TODO inserts here
-                            query_radio = "INSERT INTO `radio_stations`(`name`, `country`, `updated`) VALUES ('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_updated) + "');"
+                            query_radio = "INSERT INTO `radio_stations`(`name`, `country`, `updated`) VALUES " \
+                                          "('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_updated) + "');"
 
                             insert_id = self.mysql_obj.make_insert(query_radio)
-                            print "making insert"
                             if insert_id != -1:
                                 station_quality = re.sub("\D", "", station_quality)
-                                query_url_and_bitrate = "INSERT INTO `radio_station_stream_urls`(`station_id`, `url`, `bitrate`) VALUES('" + str(insert_id) + "'," + "'" + station_url + "'," + "'" + station_quality + "');"
+                                query_url_and_bitrate = "INSERT INTO `radio_station_stream_urls`(`station_id`, `url`, `bitrate`) " \
+                                                        "VALUES('" + str(insert_id) + "'," + "'" + station_url + "'," + "'" + station_quality + "');"
                                 self.mysql_obj.make_insert(query_url_and_bitrate)
                             sys.exit(1)
 
