@@ -4,7 +4,7 @@
 
 from common.MysqlConnect import MysqlConnect
 from scripts.RadioSpider import RadioSpider
-from scripts.ParseCounties import ParseCountry
+from scripts.ParserCountries import ParseCountry
 
 class SpiderRun(object):
 
