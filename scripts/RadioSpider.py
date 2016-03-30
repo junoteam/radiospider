@@ -132,6 +132,9 @@ class RadioSpider(object):
                                     logging.info('--- Radio block ends here ---')
 
                             #TODO inserts here
+
+                            #remove quots
+                            station_name = RadioSpider.replace_quots(station_name)
                             query_radio = "INSERT INTO `radio_stations`(`name`, `location`, `country`, `updated`) VALUES ('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_country) + "'," + "'" + str(station_updated) + "');"
                             insert_id = self.mysql_obj.make_insert(query_radio)
 
