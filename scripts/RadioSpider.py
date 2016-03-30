@@ -15,10 +15,9 @@ import logging
 class RadioSpider(object):
 
     log_file = './radio.log'
-
-    mysql_obj = MysqlConnect()
     radio_url_format = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/StartPage.asp?sBrowseType=Format'
 
+    mysql_obj = MysqlConnect()
     countryParseObj = ParseCountry()
 
     # Here we replace quotes in text in tweet or in any other string
