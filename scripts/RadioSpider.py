@@ -21,6 +21,19 @@ class RadioSpider(object):
 
     countryParseObj = ParseCountry()
 
+    # Here we replace quotes in text in tweet or in any other string
+    @staticmethod
+    def replace_quots(text):
+        text = str(text)
+        replaced_quotes = ["'", '"']
+        for char in replaced_quotes:
+            text = text.replace(char, "\\" + char)
+
+        if len(text) > 0:
+            if text[:-1] == '\\':
+                text[:-1] = ""
+        return text
+
     def genresParser(self):
 
         logging.basicConfig(filename=self.log_file, level=logging.DEBUG)
