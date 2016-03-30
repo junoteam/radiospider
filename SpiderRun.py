@@ -4,6 +4,7 @@
 
 from common.MysqlConnect import MysqlConnect
 from scripts.RadioSpider import RadioSpider
+from scripts.ParseCounties import ParseCountry
 
 class SpiderRun(object):
 
@@ -18,6 +19,10 @@ class SpiderRun(object):
 
 if __name__ == '__main__':
 
-    parserObj = RadioSpider()
-    parserObj.radioParser()
+    #parserObj = RadioSpider()
+    #parserObj.radioParser()
 
+    loc = "Vanuatu"
+
+    parserCountries = ParseCountry()
+    parserCountries.get_country(loc)
