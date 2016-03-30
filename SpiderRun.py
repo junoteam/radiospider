@@ -22,7 +22,8 @@ if __name__ == '__main__':
     #parserObj = RadioSpider()
     #parserObj.radioParser()
 
-    loc = "Vanuatu"
+    loc = "Zalupa"
 
     parserCountries = ParseCountry()
-    parserCountries.get_country(loc)
+    zain = parserCountries.get_country(loc)
+    print zain
