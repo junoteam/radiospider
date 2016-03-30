@@ -8,11 +8,7 @@ import requests
 
 class ParseCountry(object):
 
-    country = ""
-
-    def get_country(self, location):
-
-        loc = location
+    def __init__(self):
         list_of_countries = (json.dumps(
             [
                 {
@@ -28,14 +24,19 @@ class ParseCountry(object):
             ensure_ascii=False
         ))
 
-        data = json.loads(list_of_countries)
-        for i in range(len(list_of_countries)):
-            elem1 = data[i]['name']
-            if elem1 == loc:
-                self.country = elem1
-                break
+        self.countries_list = json.loads(list_of_countries)
 
-        return self.country
+    def get_country(self, location):
+
+        country = ""
+        location = location.lower()
+
+        for i in range(len(self.countries_list)):
+            elem1 = self.countries_list[i]['name']
+            if elem1.lower() in location:
+                country = elem1
+                break
+        return country
 
     # def get_usa_state(self):
     #

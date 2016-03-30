@@ -19,11 +19,6 @@ class SpiderRun(object):
 
 if __name__ == '__main__':
 
-    #parserObj = RadioSpider()
-    #parserObj.radioParser()
+    parserObj = RadioSpider()
+    parserObj.radioParser()
 
-    loc = "Zalupa"
-
-    parserCountries = ParseCountry()
-    zain = parserCountries.get_country(loc)
-    print zain

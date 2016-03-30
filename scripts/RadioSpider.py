@@ -5,6 +5,7 @@
 from urllib2 import urlopen
 from bs4 import BeautifulSoup
 from common.MysqlConnect import MysqlConnect
+from scripts.ParserCountries import ParseCountry
 import re
 import urllib
 import sys
@@ -13,10 +14,12 @@ import logging
 
 class RadioSpider(object):
 
-    log_file = '/root/radio.log'
+    log_file = './radio.log'
 
     mysql_obj = MysqlConnect()
     radio_url_format = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/StartPage.asp?sBrowseType=Format'
+
+    countryParseObj = ParseCountry()
 
     def genresParser(self):
 
@@ -72,6 +75,7 @@ class RadioSpider(object):
                             station_url = ''
                             station_name = ''
                             station_location = ''
+                            station_country = ''
                             station_genre = ''
                             station_quality = ''
                             station_updated = datetime.datetime.now()
@@ -79,9 +83,11 @@ class RadioSpider(object):
 
                             if len(alTds) < 5:
                                 continue
-                            str1 = ''.join([str(x) for x in alTds])
+                            all_td_string = ''.join([str(x) for x in alTds])
                             govno = 'bgcolor="#FFFFFF"'
-                            if govno in str1:
+                            govno_2 = '<strong>Station Name</strong>'
+
+                            if govno in all_td_string or govno_2 in all_td_string:
                                 continue
 
                             if len(alTds) > 0:
@@ -99,7 +105,9 @@ class RadioSpider(object):
                                     logging.info("Name of Radio: " + station_name)
                             if len(alTds) > 2:
                                 station_location = alTds[2].getText()
+                                station_country = self.countryParseObj.get_country(station_location)
                                 logging.info("Location of Radio: " + station_location)
+                                logging.info("Country of Radio: " + station_country)
                             if len(alTds) > 3:
                                 allTdLinks = alTds[3].findAll('a')
                                 if len(allTdLinks) > 0:
@@ -111,7 +119,7 @@ class RadioSpider(object):
                                     logging.info('--- Radio block ends here ---')
 
                             #TODO inserts here
-                            query_radio = "INSERT INTO `radio_stations`(`name`, `location`, `updated`) VALUES ('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_updated) + "');"
+                            query_radio = "INSERT INTO `radio_stations`(`name`, `location`, `country`, `updated`) VALUES ('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_country) + "'," + "'" + str(station_updated) + "');"
                             insert_id = self.mysql_obj.make_insert(query_radio)
 
                             if insert_id != -1:
