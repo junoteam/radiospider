@@ -18,3 +18,17 @@ class Utils():
             return ubuntu_alef_ip
         else:
             return ubuntu_bet_ip
+
+    # Here we replace quotes in text in tweet or in any other string
+    @staticmethod
+    def replace_quots(text):
+        text = str(text)
+        replaced_quotes = ["'", '"']
+        for char in replaced_quotes:
+            text = text.replace(char, "\\" + char)
+
+        if len(text) > 0:
+            if text[:-1] == '\\':
+                text[:-1] = ""
+        return text
+

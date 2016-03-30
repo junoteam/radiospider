@@ -6,6 +6,7 @@ from urllib2 import urlopen
 from bs4 import BeautifulSoup
 from common.MysqlConnect import MysqlConnect
 from scripts.ParserCountries import ParseCountry
+from utils.utils import Utils
 import re
 import urllib
 import sys
@@ -19,19 +20,7 @@ class RadioSpider(object):
 
     mysql_obj = MysqlConnect()
     countryParseObj = ParseCountry()
-
-    # Here we replace quotes in text in tweet or in any other string
-    @staticmethod
-    def replace_quots(text):
-        text = str(text)
-        replaced_quotes = ["'", '"']
-        for char in replaced_quotes:
-            text = text.replace(char, "\\" + char)
-
-        if len(text) > 0:
-            if text[:-1] == '\\':
-                text[:-1] = ""
-        return text
+    utilsObj = Utils()
 
     def genresParser(self):
 
@@ -133,7 +122,7 @@ class RadioSpider(object):
                             #TODO inserts here
 
                             #remove quots
-                            station_name = RadioSpider.replace_quots(station_name)
+                            station_name = self.utilsObj.replace_quots(station_name)
                             query_radio = "INSERT INTO `radio_stations`(`name`, `location`, `country`, `updated`) VALUES ('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_country) + "'," + "'" + str(station_updated) + "');"
                             insert_id = self.mysql_obj.make_insert(query_radio)
 
