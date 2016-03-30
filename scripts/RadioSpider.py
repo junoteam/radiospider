@@ -9,13 +9,18 @@ import re
 import urllib
 import sys
 import datetime
+import logging
 
 class RadioSpider(object):
+
+    log_file = '/root/radio.log'
 
     mysql_obj = MysqlConnect()
     radio_url_format = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/StartPage.asp?sBrowseType=Format'
 
     def genresParser(self):
+
+        logging.basicConfig(filename=self.log_file, level=logging.DEBUG)
 
         genres_array = []
         soup = BeautifulSoup(urlopen(self.radio_url_format).read(), "lxml")
@@ -84,27 +89,27 @@ class RadioSpider(object):
                                 if len(allTdLinks) > 0:
                                     station_url = m3u_url + allTdLinks[0]['href']
                                     station_url = station_url.replace('../', '')
-                                    print '--- Radio block starts here ---'
-                                    print "URL of Radio: " + station_url
+                                    logging.info('\n')
+                                    logging.info('--- Radio block starts here ---')
+                                    logging.info("URL of Radio: " + station_url)
                             if len(alTds) > 1:
                                 allTdLinks = alTds[1].findAll('a')
                                 if len(allTdLinks) > 0:
                                     station_name = allTdLinks[0].getText()
-                                    print "Name of Radio: " + station_name
+                                    logging.info("Name of Radio: " + station_name)
                             if len(alTds) > 2:
                                 station_location = alTds[2].getText()
-                                print "Location of Radio: " + station_location
+                                logging.info("Location of Radio: " + station_location)
                             if len(alTds) > 3:
                                 allTdLinks = alTds[3].findAll('a')
                                 if len(allTdLinks) > 0:
                                     station_genre = allTdLinks[0].getText()
-                                    print "Genre of Radio: " + station_genre
+                                    logging.info("Genre of Radio: " + station_genre)
                             if len(alTds) > 4:
                                     station_quality = alTds[4].getText()
-                                    print "Quality of Radio: " + station_quality
-                                    print '--- Radio block ends here ---'
-                                    print "\n"
-                            
+                                    logging.info("Quality of Radio: " + station_quality)
+                                    logging.info('--- Radio block ends here ---')
+
                             #TODO inserts here
                             query_radio = "INSERT INTO `radio_stations`(`name`, `location`, `updated`) VALUES ('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_updated) + "');"
                             insert_id = self.mysql_obj.make_insert(query_radio)
@@ -113,6 +118,8 @@ class RadioSpider(object):
                                 station_quality = re.sub("\D", "", station_quality)
                                 query_url_and_bitrate = "INSERT INTO `radio_station_stream_urls`(`station_id`, `url`, `bitrate`) VALUES('" + str(insert_id) + "'," + "'" + station_url + "'," + "'" + station_quality + "');"
                                 self.mysql_obj.make_insert(query_url_and_bitrate)
+
+                        logging.info("The end!")
                         sys.exit(1)
 
 

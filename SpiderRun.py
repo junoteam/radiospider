@@ -2,11 +2,8 @@
 # -*- coding: utf-8 -*-
 # -*- by Alex -*-
 
-# Test
-
 from common.MysqlConnect import MysqlConnect
 from scripts.RadioSpider import RadioSpider
-from utils.utils import Utils
 
 class SpiderRun(object):
 
@@ -20,9 +17,6 @@ class SpiderRun(object):
             print row[0], row[1], row[2], row[3], row[4]
 
 if __name__ == '__main__':
-
-    # appRun = SpiderRun()
-    # appRun.app_run()
 
     parserObj = RadioSpider()
     parserObj.radioParser()
