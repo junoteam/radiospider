@@ -49,7 +49,6 @@ class RadioSpider(object):
         for item in range(len(all_genres)):
             radio_url_genres = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/BrowsePremiumStations.asp?sCategory=' + all_genres[item] + '&sBrowseType=Format&sViewBy=&sSortby=&sWhatList=&sNiceLang=&iCurrPage=1'
             url_clean = urllib.urlopen(radio_url_genres)
-
             soup = BeautifulSoup(url_clean, "lxml")
             pages = soup.findAll('div')
             for row in pages:
@@ -63,10 +62,8 @@ class RadioSpider(object):
             for number in range(len(pages_array)):
                 radio_urls = 'http://vtuner.com/setupapp/guide/asp/BrowseStations/BrowsePremiumStations.asp?sCategory=' + all_genres[item] + '&sBrowseType=Format&sViewBy=&sSortby=&sWhatList=&sNiceLang=&iCurrPage=' + pages_array[number]
                 m3u_url = 'http://vtuner.com/setupapp/guide/asp/'
-                
                 url_ready = urllib.urlopen(radio_urls)
                 soup_radios = BeautifulSoup(url_ready, "lxml")
-
                 main_table = soup_radios.find('table', id='table1').findAll('tr')
                 for tab in main_table:
                     table = tab.findAll('table')
@@ -119,10 +116,10 @@ class RadioSpider(object):
                                     logging.info("Quality of Radio: " + station_quality)
                                     logging.info('--- Radio block ends here ---')
 
-                            #TODO inserts here
-
-                            #remove quots
+                            #remove quotes for MySQL inserts
                             station_name = self.utilsObj.replace_quots(station_name)
+
+                            #TODO inserts here
                             query_radio = "INSERT INTO `radio_stations`(`name`, `location`, `country`, `updated`) VALUES ('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_country) + "'," + "'" + str(station_updated) + "');"
                             insert_id = self.mysql_obj.make_insert(query_radio)
 
