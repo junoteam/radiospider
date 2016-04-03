@@ -22,7 +22,7 @@ if __name__ == '__main__':
     # parserObj = RadioSpider()
     # parserObj.radioParser()
 
-    state = "NY"
+    state = "Susquehanna PA"
 
     parserCountryObj = ParseCountry()
-    parserCountryObj.get_usa_state(state)
+    parserCountryObj.get_country(state)
