@@ -128,8 +128,28 @@ class RadioSpider(object):
                                 query_url_and_bitrate = "INSERT INTO `radio_station_stream_urls`(`station_id`, `url`, `bitrate`) VALUES('" + str(insert_id) + "'," + "'" + station_url + "'," + "'" + station_quality + "');"
                                 self.mysql_obj.make_insert(query_url_and_bitrate)
 
+                            sep = "/"
+                            genre = station_genre.split(sep, 1)[0]
+
+                            query_get_genre_id = "SELECT `id` from `music_genres` WHERE `name`= " + "'" + genre + "'" + ";"
+                            result_genre_id = self.mysql_obj.make_select(query_get_genre_id)
+                            if result_genre_id is None:
+                                query_insert_genre = "INSERT INTO `music_genres` (`name`) VALUES ('" + str(genre) + "');"
+                                self.mysql_obj.make_insert(query_insert_genre)
+                                print "Result is NONE"
+                            else:
+                                #self.mysql_obj.make_insert()
+                                print "Result is %s" % result_genre_id
+                            #print "RESULT: %s" % result
+
+                            #TODO select_id_genre = "SELECT `id` from `music_genres` WHERE `name`= "Rock";"
+                            ## if select returns 0, need add genre to table (1 insert)
+                            ## if select returns 1, need add radio_id and genre_id (2 insert)
+                            #TODO INSERT into `radio_station_genres` radio_id and genre_id
+
                         logging.info("The end!")
                         sys.exit(1)
+
 
 
 

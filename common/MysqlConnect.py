@@ -49,14 +49,16 @@ class MysqlConnect(object):
         return insertedId
 
     def make_select(self, sql_query):
+        data = ""
         cursor = self.get_cursor()
         try:
             data = cursor.execute(sql_query)
-            data = cursor.fetchall()
+            data = cursor.fetchone()
         except MySQLdb.Error, e:
             print "Error %d: %s" % (e.args[0], e.args[1])
             print '====== WRONG SQL QUERY ======'
             print sql_query
+        cursor.close()
         return data
 
     def close_database(self):

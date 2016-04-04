@@ -19,10 +19,10 @@ class SpiderRun(object):
 
 if __name__ == '__main__':
 
-    # parserObj = RadioSpider()
-    # parserObj.radioParser()
+    parserObj = RadioSpider()
+    parserObj.radioParser()
 
-    location = "Sydney Australia"
+    # location = "Sydney Australia"
 
-    parserCountryObj = ParseCountry()
-    parserCountryObj.get_country(location)
+    # parserCountryObj = ParseCountry()
+    # parserCountryObj.get_country(location)
