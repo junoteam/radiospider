@@ -29,7 +29,7 @@ class MysqlConnect(object):
 
     def get_cursor(self):
         db = self.database
-        cursor = db.cursor()
+        cursor = db.cursor(MySQLdb.cursors.DictCursor)
         return cursor
 
     def make_insert(self, sql_query):
@@ -53,7 +53,7 @@ class MysqlConnect(object):
         cursor = self.get_cursor()
         try:
             data = cursor.execute(sql_query)
-            data = cursor.fetchone()
+            data = cursor.fetchall()
         except MySQLdb.Error, e:
             print "Error %d: %s" % (e.args[0], e.args[1])
             print '====== WRONG SQL QUERY ======'
