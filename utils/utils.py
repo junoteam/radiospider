@@ -3,6 +3,8 @@
 # -*- by Alex -*-
 
 import socket
+import requests
+import urllib2
 
 class Utils():
 
@@ -29,6 +31,14 @@ class Utils():
             if text[:-1] == '\\':
                 text[:-1] = ""
         return text
+
+    @staticmethod
+    def parse_m3u_file():
+
+        url = 'http://vtuner.com/setupapp/guide/asp/func/dynampls.asp?link=1&id=45321'
+
+        f = urllib2.urlopen(url).geturl()
+        print f
 
     # Only lists of states for USA & Canada
     @staticmethod
