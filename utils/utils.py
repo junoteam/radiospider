@@ -3,10 +3,19 @@
 # -*- by Alex -*-
 
 import socket
-import requests
 import urllib2
 
 class Utils():
+
+    # Colors for normal output
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
     # Here we get IP of machine that we work with
     @staticmethod
@@ -34,15 +43,23 @@ class Utils():
 
     # Parse url and get it ready for writing to DB
     @staticmethod
-    def parse_m3u_file(radio_url):
+    def parse_m3u_file(station_url):
 
+        vtuner = 'http://www.vtuner.com/'
+        replace_string = str(vtuner)
         separator = 'http://'
-        raw_url = urllib2.urlopen(radio_url).geturl()
+
+        raw_url = urllib2.urlopen(station_url).geturl()
         ready_url = str(raw_url)
-        print ready_url
-        url = ready_url.split(separator, 2)[2]
-        final_url = str(separator) + str(url)
-        return final_url
+
+        if replace_string in ready_url:
+            url = ready_url.split(separator, 2)[2]
+            final_url = str(separator) + str(url)
+            print "FINAL   URL #  " + final_url
+            return final_url
+        else:
+            print "FINAL URL #  " + ready_url
+            return ready_url
 
     # Only lists of states for USA & Canada
     @staticmethod
