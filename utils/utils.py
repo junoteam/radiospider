@@ -32,13 +32,19 @@ class Utils():
                 text[:-1] = ""
         return text
 
+    # Parse url and get it ready for writing to DB
     @staticmethod
     def parse_m3u_file():
 
         url = 'http://vtuner.com/setupapp/guide/asp/func/dynampls.asp?link=1&id=45321'
+        separator = 'http://'
 
-        f = urllib2.urlopen(url).geturl()
-        print f
+        raw_url = urllib2.urlopen(url).geturl()
+        ready_url = str(raw_url)
+        url = ready_url.split(separator, 2)[2]
+        final_url = str(separator) + str(url)
+        print final_url
+        return final_url
 
     # Only lists of states for USA & Canada
     @staticmethod
