@@ -20,6 +20,8 @@ class SpiderRun(object):
 
 if __name__ == '__main__':
 
+    #Main staff run here
+
     parserObj = RadioSpider()
     parserObj.radioParser()
 
