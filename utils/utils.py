@@ -58,8 +58,13 @@ class Utils():
             print "FINAL   URL #  " + final_url
             return final_url
         else:
-            print "FINAL URL #  " + ready_url
+            print "FINAL   URL #  " + ready_url
             return ready_url
+
+        #TODO regex for urls
+        # \.[a-z,0-9]{1,4}$
+        # - :\/\/
+        # (htt[p][^s])|(http[s])
 
     # Only lists of states for USA & Canada
     @staticmethod
