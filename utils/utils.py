@@ -4,6 +4,7 @@
 
 import socket
 import urllib2
+import re
 
 class Utils():
 
@@ -51,20 +52,22 @@ class Utils():
 
         raw_url = urllib2.urlopen(station_url).geturl()
         ready_url = str(raw_url)
+        print "RAW   URL # " + ready_url
 
         if replace_string in ready_url:
             url = ready_url.split(separator, 2)[2]
             final_url = str(separator) + str(url)
-            print "FINAL   URL #  " + final_url
+            final_url = re.sub(r'(htt[p]:\/\/)|(http[s]:\/\/)', "", final_url)
+            final_url = re.sub(r'\/$', "", final_url)
+            final_url = re.sub(r'\.[a-z,0-9]{1,4}$', "", final_url)
+            print "FINAL   URL #  " + str(final_url)
             return final_url
         else:
-            print "FINAL   URL #  " + ready_url
+            ready_url = re.sub(r'(htt[p]:\/\/)|(http[s]:\/\/)', "", ready_url)
+            ready_url = re.sub(r'\/$', "", ready_url)
+            ready_url = re.sub(r'\.[a-z,0-9]{1,4}$', "", ready_url)
+            print "READY   URL #  " + str(ready_url)
             return ready_url
-
-        #TODO regex for urls
-        # \.[a-z,0-9]{1,4}$
-        # - :\/\/
-        # (htt[p][^s])|(http[s])
 
     # Only lists of states for USA & Canada
     @staticmethod
