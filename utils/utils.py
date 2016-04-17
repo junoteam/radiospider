@@ -57,17 +57,20 @@ class Utils():
         if replace_string in ready_url:
             url = ready_url.split(separator, 2)[2]
             final_url = str(separator) + str(url)
-            final_url = re.sub(r'(htt[p]:\/\/)|(http[s]:\/\/)', "", final_url)
-            final_url = re.sub(r'\/$', "", final_url)
-            final_url = re.sub(r'\.[a-z,0-9]{1,4}$', "", final_url)
-            print "FINAL   URL #  " + str(final_url)
-            return final_url
+
+            regex_final_url = re.sub(r'(htt[p]:\/\/)|(http[s]:\/\/)', "", final_url)
+            regex_final_url = re.sub(r'\/$', "", regex_final_url)
+            regex_final_url = re.sub(r'\.[a-z,0-9]{1,4}$', "", regex_final_url)
+            print "FINAL   URL #  " + str(regex_final_url)
+            url_list = [final_url, regex_final_url]
+            return url_list
         else:
-            ready_url = re.sub(r'(htt[p]:\/\/)|(http[s]:\/\/)', "", ready_url)
-            ready_url = re.sub(r'\/$', "", ready_url)
-            ready_url = re.sub(r'\.[a-z,0-9]{1,4}$', "", ready_url)
-            print "READY   URL #  " + str(ready_url)
-            return ready_url
+            regex_ready_url = re.sub(r'(htt[p]:\/\/)|(http[s]:\/\/)', "", ready_url)
+            regex_ready_url = re.sub(r'\/$', "", regex_ready_url)
+            regex_ready_url = re.sub(r'\.[a-z,0-9]{1,4}$', "", regex_ready_url)
+            print "READY   URL #  " + str(regex_ready_url)
+            url_list = [ready_url, regex_ready_url]
+            return url_list
 
     # Only lists of states for USA & Canada
     @staticmethod

@@ -96,8 +96,11 @@ class RadioSpider(object):
                                     station_url = m3u_url + allTdLinks[0]['href']
                                     station_url = station_url.replace('../', '')
                                     station_url = Utils.parse_m3u_file(station_url)
-                                    print "STATION URL #  " + station_url
+                                    station_url = station_url[0]
 
+                                    #TODO for select need to use select_url =  station_url[1]
+
+                                    print "STATION URL #  " + str(station_url)
                                     logging.info('\n')
                                     logging.info('--- Radio block starts here ---')
                                     logging.info("URL of Radio: " + str(station_url))
