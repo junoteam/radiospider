@@ -99,6 +99,7 @@ class RadioSpider(object):
                                     station_url = station_url[0]
 
                                     #TODO for select need to use select_url =  station_url[1]
+                                    #TODO example of select: SELECT id from radio_station_stream_urls where url REGEXP ('http://www.classicfm.nl/player/classicfm.asx') LIMIT 1
 
                                     print "STATION URL #  " + str(station_url)
                                     logging.info('\n')
