@@ -78,63 +78,51 @@ class RadioSpider(object):
                             station_quality = ''
                             station_updated = datetime.datetime.now()
                             alTds = tr.findAll('td')
-
                             if len(alTds) < 5:
                                 continue
                             all_td_string = ''.join([str(x) for x in alTds])
                             govno = 'bgcolor="#FFFFFF"'
                             govno_2 = '<strong>Station Name</strong>'
-
                             if govno in all_td_string or govno_2 in all_td_string:
                                 continue
-
                             if len(alTds) > 0:
-
                                 allTdLinks = alTds[0].findAll('a')
                                 if len(allTdLinks) > 0:
-
                                     station_url = m3u_url + allTdLinks[0]['href']
                                     station_url = station_url.replace('../', '')
                                     station_url = Utils.parse_m3u_file(station_url)
                                     station_url = station_url[0]
-
-                                    #TODO for select need to use select_url =  station_url[1]
-                                    #TODO example of select: SELECT id from radio_station_stream_urls where url REGEXP ('http://www.classicfm.nl/player/classicfm.asx') LIMIT 1
-
                                     print "STATION URL #  " + str(station_url)
                                     logging.info('\n')
                                     logging.info('--- Radio block starts here ---')
                                     logging.info("URL of Radio: " + str(station_url))
-
                             if len(alTds) > 1:
-
                                 allTdLinks = alTds[1].findAll('a')
                                 if len(allTdLinks) > 0:
                                     station_name = allTdLinks[0].getText()
                                     logging.info("Name of Radio: " + station_name)
-
                             if len(alTds) > 2:
-
                                 station_location = alTds[2].getText()
                                 station_country = self.countryParseObj.get_country(station_location)
                                 logging.info("Location of Radio: " + station_location)
                                 logging.info("Country of Radio: " + station_country)
-
                             if len(alTds) > 3:
-
                                 allTdLinks = alTds[3].findAll('a')
                                 if len(allTdLinks) > 0:
                                     station_genre = allTdLinks[0].getText()
                                     logging.info("Genre of Radio: " + station_genre)
-
                             if len(alTds) > 4:
-
                                     station_quality = alTds[4].getText()
                                     logging.info("Quality of Radio: " + station_quality)
                                     logging.info('--- Radio block ends here ---')
 
                             #remove quotes for MySQL inserts
                             station_name = self.utilsObj.replace_quots(station_name)
+
+                            ''' look IF station already EXIST in DB '''
+                            check_station = "SELECT id from `radio_station_stream_urls` where url REGEXP ('" + station_name + "') + LIMIT 1;"
+                            check_station_result = self.mysql_obj.make_select(check_station)
+                            print "Station ID is: %s" % str(check_station_result)
 
                             #TODO inserts here
                             query_radio = "INSERT INTO `radio_stations`(`name`, `location`, `country`, `updated`) VALUES ('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_country) + "'," + "'" + str(station_updated) + "');"
