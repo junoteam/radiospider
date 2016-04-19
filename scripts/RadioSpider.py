@@ -123,9 +123,8 @@ class RadioSpider(object):
 
                             ''' look IF station already EXIST in DB '''
                             check_station = "SELECT id from `radio_station_stream_urls` where url REGEXP ('" + clean_url + "') LIMIT 1;"
-                            print check_station
                             check_station_result = self.mysql_obj.make_select(check_station)
-                            print "Station ID is: %s" % str(check_station_result)
+                            logging.info("Station ID is: " + str(check_station_result))
 
                             if not check_station_result:
 
@@ -146,18 +145,17 @@ class RadioSpider(object):
 
                                 if not result_genre_id:
                                     query_insert_genre = "INSERT INTO `music_genres` (`name`) VALUES ('" + str(genre) + "');"
-                                    self.mysql_obj.make_insert(query_insert_genre)
-                                    print "Result is NONE"
+                                    id_genre_is = self.mysql_obj.make_insert(query_insert_genre)
+                                    logging.info("Result is NONE, Adding tnew genre!")
                                 else:
                                     print str(result_genre_id[0]['id'])
                                     id_genre_is = str(result_genre_id[0]['id'])
-                                    query_insert_id_of_genre = "INSERT into `radio_station_genres` (`station_id`, `genre_id`) VALUES ('" + str(insert_id) + "','" + id_genre_is + "');"
+
+                                query_insert_id_of_genre = "INSERT into `radio_station_genres` (`station_id`, `genre_id`) VALUES ('" + str(insert_id) + "','" + id_genre_is + "');"
+                                self.mysql_obj.make_insert(query_insert_id_of_genre)
+
                             else:
                                 logging.info("Radio station - ALREADY EXIST!")
-
-                        logging.info("The end!")
-                        sys.exit(1)
-
 
 
 
