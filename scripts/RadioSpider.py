@@ -24,7 +24,7 @@ class RadioSpider(object):
 
     def genresParser(self):
 
-        logging.basicConfig(filename=self.log_file, level=logging.DEBUG)
+        logging.basicConfig(filename=self.log_file, level=logging.INFO)
 
         genres_array = []
         soup = BeautifulSoup(urlopen(self.radio_url_format).read(), "lxml")
@@ -91,11 +91,13 @@ class RadioSpider(object):
                                     station_url = m3u_url + allTdLinks[0]['href']
                                     station_url = station_url.replace('../', '')
                                     station_url = Utils.parse_m3u_file(station_url)
-                                    station_url = station_url[0]
-                                    print "STATION URL #  " + str(station_url)
+                                    real_station_url = station_url[0]
+                                    clean_url = station_url[1]
+                                    print "STATION URL #  " + str(real_station_url)
+                                    print "CLEAN URL #  " + str(clean_url)
                                     logging.info('\n')
                                     logging.info('--- Radio block starts here ---')
-                                    logging.info("URL of Radio: " + str(station_url))
+                                    logging.info("URL of Radio: " + str(real_station_url))
                             if len(alTds) > 1:
                                 allTdLinks = alTds[1].findAll('a')
                                 if len(allTdLinks) > 0:
@@ -120,33 +122,38 @@ class RadioSpider(object):
                             station_name = self.utilsObj.replace_quots(station_name)
 
                             ''' look IF station already EXIST in DB '''
-                            check_station = "SELECT id from `radio_station_stream_urls` where url REGEXP ('" + station_name + "') + LIMIT 1;"
+                            check_station = "SELECT id from `radio_station_stream_urls` where url REGEXP ('" + clean_url + "') LIMIT 1;"
+                            print check_station
                             check_station_result = self.mysql_obj.make_select(check_station)
                             print "Station ID is: %s" % str(check_station_result)
 
-                            #TODO inserts here
-                            query_radio = "INSERT INTO `radio_stations`(`name`, `location`, `country`, `updated`) VALUES ('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_country) + "'," + "'" + str(station_updated) + "');"
-                            insert_id = self.mysql_obj.make_insert(query_radio)
+                            if not check_station_result:
 
-                            if insert_id != -1:
-                                station_quality = re.sub("\D", "", station_quality)
-                                query_url_and_bitrate = "INSERT INTO `radio_station_stream_urls`(`station_id`, `url`, `bitrate`) VALUES('" + str(insert_id) + "'," + "'" + station_url + "'," + "'" + station_quality + "');"
-                                self.mysql_obj.make_insert(query_url_and_bitrate)
+                                #TODO inserts here
+                                query_radio = "INSERT INTO `radio_stations`(`name`, `location`, `country`, `updated`) VALUES ('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_country) + "'," + "'" + str(station_updated) + "');"
+                                insert_id = self.mysql_obj.make_insert(query_radio)
 
-                            sep = "/"
-                            genre = station_genre.split(sep, 1)[0]
+                                if insert_id != -1:
+                                    station_quality = re.sub("\D", "", station_quality)
+                                    query_url_and_bitrate = "INSERT INTO `radio_station_stream_urls`(`station_id`, `url`, `bitrate`) VALUES('" + str(insert_id) + "'," + "'" + real_station_url + "'," + "'" + station_quality + "');"
+                                    self.mysql_obj.make_insert(query_url_and_bitrate)
 
-                            query_get_genre_id = "SELECT `id` from `music_genres` WHERE `name`= " + "'" + genre + "'" + ";"
-                            result_genre_id = self.mysql_obj.make_select(query_get_genre_id)
+                                sep = "/"
+                                genre = station_genre.split(sep, 1)[0]
 
-                            if not result_genre_id:
-                                query_insert_genre = "INSERT INTO `music_genres` (`name`) VALUES ('" + str(genre) + "');"
-                                self.mysql_obj.make_insert(query_insert_genre)
-                                print "Result is NONE"
+                                query_get_genre_id = "SELECT `id` from `music_genres` WHERE `name`= " + "'" + genre + "'" + ";"
+                                result_genre_id = self.mysql_obj.make_select(query_get_genre_id)
+
+                                if not result_genre_id:
+                                    query_insert_genre = "INSERT INTO `music_genres` (`name`) VALUES ('" + str(genre) + "');"
+                                    self.mysql_obj.make_insert(query_insert_genre)
+                                    print "Result is NONE"
+                                else:
+                                    print str(result_genre_id[0]['id'])
+                                    id_genre_is = str(result_genre_id[0]['id'])
+                                    query_insert_id_of_genre = "INSERT into `radio_station_genres` (`station_id`, `genre_id`) VALUES ('" + str(insert_id) + "','" + id_genre_is + "');"
                             else:
-                                print str(result_genre_id[0]['id'])
-                                id_genre_is = str(result_genre_id[0]['id'])
-                                query_insert_id_of_genre = "INSERT into `radio_station_genres` (`station_id`, `genre_id`) VALUES ('" + str(insert_id) + "','" + id_genre_is + "');"
+                                logging.info("Radio station - ALREADY EXIST!")
 
                         logging.info("The end!")
                         sys.exit(1)

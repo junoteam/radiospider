@@ -63,6 +63,7 @@ class Utils():
             regex_final_url = re.sub(r'\.[a-z,0-9]{1,4}$', "", regex_final_url)
             print "FINAL   URL #  " + str(regex_final_url)
             url_list = [final_url, regex_final_url]
+            print "ARRAY TO RETURN: %s" % str(url_list)
             return url_list
         else:
             regex_ready_url = re.sub(r'(htt[p]:\/\/)|(http[s]:\/\/)', "", ready_url)
@@ -70,6 +71,7 @@ class Utils():
             regex_ready_url = re.sub(r'\.[a-z,0-9]{1,4}$', "", regex_ready_url)
             print "READY   URL #  " + str(regex_ready_url)
             url_list = [ready_url, regex_ready_url]
+            print "ARRAY TO RETURN: %s" % str(url_list)
             return url_list
 
     # Only lists of states for USA & Canada
