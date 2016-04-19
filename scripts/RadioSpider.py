@@ -151,7 +151,7 @@ class RadioSpider(object):
                                     print str(result_genre_id[0]['id'])
                                     id_genre_is = str(result_genre_id[0]['id'])
 
-                                query_insert_id_of_genre = "INSERT into `radio_station_genres` (`station_id`, `genre_id`) VALUES ('" + str(insert_id) + "','" + id_genre_is + "');"
+                                query_insert_id_of_genre = "INSERT into `radio_station_genres` (`station_id`, `genre_id`) VALUES ('" + str(insert_id) + "','" + str(id_genre_is) + "');"
                                 self.mysql_obj.make_insert(query_insert_id_of_genre)
 
                             else:
