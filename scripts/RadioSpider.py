@@ -89,7 +89,9 @@ class RadioSpider(object):
                                 allTdLinks = alTds[0].findAll('a')
                                 if len(allTdLinks) > 0:
                                     station_url = m3u_url + allTdLinks[0]['href']
+                                    print "DEBUG URL #1 ::::> " + station_url
                                     station_url = station_url.replace('../', '')
+                                    print "DEBUG URL #2 ::::> " + station_url
                                     station_url = Utils.parse_m3u_file(station_url)
                                     real_station_url = station_url[0]
                                     clean_url = station_url[1]

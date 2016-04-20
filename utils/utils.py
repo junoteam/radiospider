@@ -50,9 +50,13 @@ class Utils():
         replace_string = str(vtuner)
         separator = 'http://'
 
-        raw_url = urllib2.urlopen(station_url).geturl()
+        try:
+            raw_url = urllib2.urlopen(station_url).geturl()
+        except urllib2.HTTPError, e:
+            print e
+
         ready_url = str(raw_url)
-        print "RAW   URL # " + ready_url
+        print "RAW URL: " + ready_url
 
         if replace_string in ready_url:
             url = ready_url.split(separator, 2)[2]
@@ -61,7 +65,7 @@ class Utils():
             regex_final_url = re.sub(r'(htt[p]:\/\/)|(http[s]:\/\/)', "", final_url)
             regex_final_url = re.sub(r'\/$', "", regex_final_url)
             regex_final_url = re.sub(r'\.[a-z,0-9]{1,4}$', "", regex_final_url)
-            print "FINAL   URL #  " + str(regex_final_url)
+            print "FINAL URL: " + str(regex_final_url)
             url_list = [final_url, regex_final_url]
             print "ARRAY TO RETURN: %s" % str(url_list)
             return url_list
@@ -69,7 +73,7 @@ class Utils():
             regex_ready_url = re.sub(r'(htt[p]:\/\/)|(http[s]:\/\/)', "", ready_url)
             regex_ready_url = re.sub(r'\/$', "", regex_ready_url)
             regex_ready_url = re.sub(r'\.[a-z,0-9]{1,4}$', "", regex_ready_url)
-            print "READY   URL #  " + str(regex_ready_url)
+            print "READY UR: " + str(regex_ready_url)
             url_list = [ready_url, regex_ready_url]
             print "ARRAY TO RETURN: %s" % str(url_list)
             return url_list
