@@ -3,7 +3,7 @@
 # -*- by Alex -*-
 
 import MySQLdb
-from utils.utils import Utils
+from utils.Utils import Utils
 
 class MysqlConnect(object):
 

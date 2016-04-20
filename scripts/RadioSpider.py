@@ -6,7 +6,7 @@ from urllib2 import urlopen
 from bs4 import BeautifulSoup
 from common.MysqlConnect import MysqlConnect
 from scripts.ParserCountries import ParseCountry
-from utils.utils import Utils
+from utils.Utils import Utils
 import re
 import urllib
 import sys
@@ -81,9 +81,9 @@ class RadioSpider(object):
                             if len(alTds) < 5:
                                 continue
                             all_td_string = ''.join([str(x) for x in alTds])
-                            govno = 'bgcolor="#FFFFFF"'
-                            govno_2 = '<strong>Station Name</strong>'
-                            if govno in all_td_string or govno_2 in all_td_string:
+                            bg_tag = 'bgcolor="#FFFFFF"'
+                            strong_tag = '<strong>Station Name</strong>'
+                            if bg_tag in all_td_string or strong_tag in all_td_string:
                                 continue
                             if len(alTds) > 0:
                                 allTdLinks = alTds[0].findAll('a')
