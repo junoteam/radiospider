@@ -93,8 +93,8 @@ class RadioSpider(object):
                                     station_url = Utils.parse_m3u_file(station_url)
                                     real_station_url = station_url[0]
                                     clean_url = station_url[1]
-                                    print "STATION URL #  " + str(real_station_url)
-                                    print "CLEAN URL #  " + str(clean_url)
+                                    print "STATION URL: " + str(real_station_url)
+                                    print "CLEAN URL: " + str(clean_url)
                                     logging.info('\n')
                                     logging.info('--- Radio block starts here ---')
                                     logging.info("URL of Radio: " + str(real_station_url))
@@ -147,14 +147,14 @@ class RadioSpider(object):
                                     id_genre_is = self.mysql_obj.make_insert(query_insert_genre)
                                     logging.info("Result is NONE, Adding tnew genre!")
                                 else:
-                                    print str(result_genre_id[0]['id'])
+                                    print "GENRE ID: " + str(result_genre_id[0]['id']) + "\n"
                                     id_genre_is = str(result_genre_id[0]['id'])
 
                                 query_insert_id_of_genre = "INSERT into `radio_station_genres` (`station_id`, `genre_id`) VALUES ('" + str(insert_id) + "','" + str(id_genre_is) + "');"
                                 self.mysql_obj.make_insert(query_insert_id_of_genre)
 
                             else:
-                                logging.info("Radio station - ALREADY EXIST!")
+                                print "Radio station - ALREADY EXIST!" + "\n"
 
 
 
