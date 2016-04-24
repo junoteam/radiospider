@@ -69,94 +69,100 @@ class RadioSpider(object):
                     table = tab.findAll('table')
                     for tagz in table:
                         oi = tagz.findAll('tr')
-                        for tr in oi:
-                            station_url = ''
-                            station_name = ''
-                            station_location = ''
-                            station_country = ''
-                            station_genre = ''
-                            station_quality = ''
-                            station_updated = datetime.datetime.now()
-                            alTds = tr.findAll('td')
-                            if len(alTds) < 5:
-                                continue
-                            all_td_string = ''.join([str(x) for x in alTds])
-                            bg_tag = 'bgcolor="#FFFFFF"'
-                            strong_tag = '<strong>Station Name</strong>'
-                            if bg_tag in all_td_string or strong_tag in all_td_string:
-                                continue
-                            if len(alTds) > 0:
-                                allTdLinks = alTds[0].findAll('a')
-                                if len(allTdLinks) > 0:
-                                    station_url = m3u_url + allTdLinks[0]['href']
-                                    print "DEBUG URL #1 ::::> " + station_url
-                                    station_url = station_url.replace('../', '')
-                                    print "DEBUG URL #2 ::::> " + station_url
-                                    station_url = Utils.parse_m3u_file(station_url)
-                                    real_station_url = station_url[0]
-                                    clean_url = station_url[1]
-                                    print "STATION URL: " + str(real_station_url)
-                                    print "CLEAN URL: " + str(clean_url)
-                                    logging.info('\n')
-                                    logging.info('--- Radio block starts here ---')
-                                    logging.info("URL of Radio: " + str(real_station_url))
-                            if len(alTds) > 1:
-                                allTdLinks = alTds[1].findAll('a')
-                                if len(allTdLinks) > 0:
-                                    station_name = allTdLinks[0].getText()
-                                    logging.info("Name of Radio: " + station_name)
-                            if len(alTds) > 2:
-                                station_location = alTds[2].getText()
-                                station_country = self.countryParseObj.get_country(station_location)
-                                logging.info("Location of Radio: " + station_location)
-                                logging.info("Country of Radio: " + station_country)
-                            if len(alTds) > 3:
-                                allTdLinks = alTds[3].findAll('a')
-                                if len(allTdLinks) > 0:
-                                    station_genre = allTdLinks[0].getText()
-                                    logging.info("Genre of Radio: " + station_genre)
-                            if len(alTds) > 4:
-                                    station_quality = alTds[4].getText()
-                                    logging.info("Quality of Radio: " + station_quality)
-                                    logging.info('--- Radio block ends here ---')
+                        # Need try..catch cuz some URLs can be broken
+                        # so whole for going to be try..catch
+                        try:
+                            for tr in oi:
+                                station_url = ''
+                                station_name = ''
+                                station_location = ''
+                                station_country = ''
+                                station_genre = ''
+                                station_quality = ''
+                                station_updated = datetime.datetime.now()
+                                alTds = tr.findAll('td')
+                                if len(alTds) < 5:
+                                    continue
+                                all_td_string = ''.join([str(x) for x in alTds])
+                                bg_tag = 'bgcolor="#FFFFFF"'
+                                strong_tag = '<strong>Station Name</strong>'
+                                if bg_tag in all_td_string or strong_tag in all_td_string:
+                                    continue
+                                if len(alTds) > 0:
+                                    allTdLinks = alTds[0].findAll('a')
+                                    if len(allTdLinks) > 0:
+                                        station_url = m3u_url + allTdLinks[0]['href']
+                                        print "DEBUG URL #1 ::::> " + station_url
+                                        station_url = station_url.replace('../', '')
+                                        print "DEBUG URL #2 ::::> " + station_url
+                                        station_url = Utils.parse_m3u_file(station_url)
+                                        real_station_url = station_url[0]
+                                        clean_url = station_url[1]
+                                        print "STATION URL: " + str(real_station_url)
+                                        print "CLEAN URL: " + str(clean_url)
+                                        logging.info('\n')
+                                        logging.info('--- Radio block starts here ---')
+                                        logging.info("URL of Radio: " + str(real_station_url))
+                                if len(alTds) > 1:
+                                    allTdLinks = alTds[1].findAll('a')
+                                    if len(allTdLinks) > 0:
+                                        station_name = allTdLinks[0].getText()
+                                        logging.info("Name of Radio: " + station_name)
+                                if len(alTds) > 2:
+                                    station_location = alTds[2].getText()
+                                    station_country = self.countryParseObj.get_country(station_location)
+                                    logging.info("Location of Radio: " + station_location)
+                                    logging.info("Country of Radio: " + station_country)
+                                if len(alTds) > 3:
+                                    allTdLinks = alTds[3].findAll('a')
+                                    if len(allTdLinks) > 0:
+                                        station_genre = allTdLinks[0].getText()
+                                        logging.info("Genre of Radio: " + station_genre)
+                                if len(alTds) > 4:
+                                        station_quality = alTds[4].getText()
+                                        logging.info("Quality of Radio: " + station_quality)
+                                        logging.info('--- Radio block ends here ---')
 
-                            #remove quotes for MySQL inserts
-                            station_name = self.utilsObj.replace_quots(station_name)
+                                #remove quotes for MySQL inserts
+                                station_name = self.utilsObj.replace_quots(station_name)
 
-                            ''' look IF station already EXIST in DB '''
-                            check_station = "SELECT id from `radio_station_stream_urls` where url REGEXP ('" + clean_url + "') LIMIT 1;"
-                            check_station_result = self.mysql_obj.make_select(check_station)
-                            logging.info("Station ID is: " + str(check_station_result))
+                                ''' look IF station already EXIST in DB '''
+                                check_station = "SELECT id from `radio_station_stream_urls` where url REGEXP ('" + clean_url + "') LIMIT 1;"
+                                check_station_result = self.mysql_obj.make_select(check_station)
+                                logging.info("Station ID is: " + str(check_station_result))
 
-                            if not check_station_result:
+                                if not check_station_result:
 
-                                query_radio = "INSERT INTO `radio_stations`(`name`, `location`, `country`, `updated`) VALUES ('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_country) + "'," + "'" + str(station_updated) + "');"
-                                insert_id = self.mysql_obj.make_insert(query_radio)
+                                    query_radio = "INSERT INTO `radio_stations`(`name`, `location`, `country`, `updated`) VALUES ('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_country) + "'," + "'" + str(station_updated) + "');"
+                                    insert_id = self.mysql_obj.make_insert(query_radio)
 
-                                if insert_id != -1:
-                                    station_quality = re.sub("\D", "", station_quality)
-                                    query_url_and_bitrate = "INSERT INTO `radio_station_stream_urls`(`station_id`, `url`, `bitrate`) VALUES('" + str(insert_id) + "'," + "'" + real_station_url + "'," + "'" + station_quality + "');"
-                                    self.mysql_obj.make_insert(query_url_and_bitrate)
+                                    if insert_id != -1:
+                                        station_quality = re.sub("\D", "", station_quality)
+                                        query_url_and_bitrate = "INSERT INTO `radio_station_stream_urls`(`station_id`, `url`, `bitrate`) VALUES('" + str(insert_id) + "'," + "'" + real_station_url + "'," + "'" + station_quality + "');"
+                                        self.mysql_obj.make_insert(query_url_and_bitrate)
 
-                                sep = "/"
-                                genre = station_genre.split(sep, 1)[0]
+                                    sep = "/"
+                                    genre = station_genre.split(sep, 1)[0]
 
-                                query_get_genre_id = "SELECT `id` from `music_genres` WHERE `name`= " + "'" + genre + "'" + ";"
-                                result_genre_id = self.mysql_obj.make_select(query_get_genre_id)
+                                    query_get_genre_id = "SELECT `id` from `music_genres` WHERE `name`= " + "'" + genre + "'" + ";"
+                                    result_genre_id = self.mysql_obj.make_select(query_get_genre_id)
 
-                                if not result_genre_id:
-                                    query_insert_genre = "INSERT INTO `music_genres` (`name`) VALUES ('" + str(genre) + "');"
-                                    id_genre_is = self.mysql_obj.make_insert(query_insert_genre)
-                                    logging.info("Result is NONE, Adding tnew genre!")
+                                    if not result_genre_id:
+                                        query_insert_genre = "INSERT INTO `music_genres` (`name`) VALUES ('" + str(genre) + "');"
+                                        id_genre_is = self.mysql_obj.make_insert(query_insert_genre)
+                                        logging.info("Result is NONE, Adding tnew genre!")
+                                    else:
+                                        print "GENRE ID: " + str(result_genre_id[0]['id']) + "\n"
+                                        id_genre_is = str(result_genre_id[0]['id'])
+
+                                    query_insert_id_of_genre = "INSERT into `radio_station_genres` (`station_id`, `genre_id`) VALUES ('" + str(insert_id) + "','" + str(id_genre_is) + "');"
+                                    self.mysql_obj.make_insert(query_insert_id_of_genre)
+
                                 else:
-                                    print "GENRE ID: " + str(result_genre_id[0]['id']) + "\n"
-                                    id_genre_is = str(result_genre_id[0]['id'])
+                                    print "Radio station - ALREADY EXIST!" + "\n"
+                        except OSError, e:
+                            print e
 
-                                query_insert_id_of_genre = "INSERT into `radio_station_genres` (`station_id`, `genre_id`) VALUES ('" + str(insert_id) + "','" + str(id_genre_is) + "');"
-                                self.mysql_obj.make_insert(query_insert_id_of_genre)
-
-                            else:
-                                print "Radio station - ALREADY EXIST!" + "\n"
 
 
 
