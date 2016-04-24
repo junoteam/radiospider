@@ -132,7 +132,6 @@ class RadioSpider(object):
                                 logging.info("Station ID is: " + str(check_station_result))
 
                                 if not check_station_result:
-
                                     query_radio = "INSERT INTO `radio_stations`(`name`, `location`, `country`, `updated`) VALUES ('" + station_name + "'," + "'" + station_location + "'," + "'" + str(station_country) + "'," + "'" + str(station_updated) + "');"
                                     insert_id = self.mysql_obj.make_insert(query_radio)
 
@@ -157,10 +156,9 @@ class RadioSpider(object):
 
                                     query_insert_id_of_genre = "INSERT into `radio_station_genres` (`station_id`, `genre_id`) VALUES ('" + str(insert_id) + "','" + str(id_genre_is) + "');"
                                     self.mysql_obj.make_insert(query_insert_id_of_genre)
-
                                 else:
                                     print "Radio station - ALREADY EXIST!" + "\n"
-                        except OSError, e:
+                        except StandardError, e:
                             print e
 
 
