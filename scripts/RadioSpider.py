@@ -39,7 +39,6 @@ class RadioSpider(object):
                     if matchObj == 'R&B':
                         matchObj = matchObj.replace('&', '%26')
                     genres_array.append(matchObj)
-        print genres_array
         return genres_array
 
     def radioParser(self):
@@ -124,7 +123,7 @@ class RadioSpider(object):
                                         logging.info("Quality of Radio: " + station_quality)
                                         logging.info('--- Radio block ends here ---')
 
-                                #remove quotes for MySQL inserts
+                                # Remove quotes for MySQL inserts
                                 station_name = self.utilsObj.replace_quots(station_name)
 
                                 ''' look IF station already EXIST in DB '''

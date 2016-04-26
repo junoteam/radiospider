@@ -23,9 +23,12 @@ class Utils():
     def get_system_env():
         ubuntu_alef_ip = '192.168.0.161'
         ubuntu_bet_ip = '172.25.60.76'
+        centos_alef_7 = '192.168.0.107'
         system_hostname = socket.gethostname()
         if system_hostname == 'booch':
             return ubuntu_alef_ip
+        elif system_hostname == 'virt7':
+            return centos_alef_7
         else:
             return ubuntu_bet_ip
 

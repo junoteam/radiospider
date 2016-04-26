@@ -4,14 +4,12 @@
 
 from common.MysqlConnect import MysqlConnect
 from scripts.RadioSpider import RadioSpider
-from scripts.ParserCountries import ParseCountry
-from utils.Utils import Utils
 
 class SpiderRun(object):
 
     def app_run(self):
 
-        """test query"""
+        """test query, nothing to do with it ¯\_(ツ)_/¯ """
         testQuery = 'SELECT * from radio_stations LIMIT 5;'
         mysqlRun = MysqlConnect()
         result = mysqlRun.make_select(testQuery)
@@ -20,13 +18,7 @@ class SpiderRun(object):
 
 if __name__ == '__main__':
 
-    #Main staff run here
+    # Main staff run here
 
     parserObj = RadioSpider()
     parserObj.radioParser()
-
-    #Utils.parse_m3u_file()
-
-    #location = "Sydney Australia"
-    #parserCountryObj = ParseCountry()
-    #parserCountryObj.get_country(location)
