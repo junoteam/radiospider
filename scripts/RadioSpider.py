@@ -69,8 +69,6 @@ class RadioSpider(object):
                     table = tab.findAll('table')
                     for tagz in table:
                         oi = tagz.findAll('tr')
-                        # Need try..catch cuz some URLs can be broken
-                        # so whole for going to be try..catch
                         try:
                             for tr in oi:
                                 station_url = ''
@@ -160,21 +158,3 @@ class RadioSpider(object):
                                     print "Radio station - ALREADY EXIST!" + "\n"
                         except StandardError, e:
                             print e
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
