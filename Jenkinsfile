@@ -1,9 +1,14 @@
 pipeline {
   agent any
   stages {
-    stage('error') {
+    stage('Message') {
       steps {
         echo 'Heelo'
+      }
+    }
+    stage('Check code') {
+      steps {
+        sh 'echo -e "hello"'
       }
     }
   }
